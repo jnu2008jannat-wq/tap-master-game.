@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tap Master</title>
+  <style>
+    body {
+      background: #101827;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px 10px;
+    }
+    .game {
+      background: #202e43;
+      padding: 25px 10px;
+      border-radius: 20px;
+      max-width: 360px;
+      margin: 25px auto;
+    }
+    #score {
+      font-size: 55px;
+      font-weight: bold;
+    }
+    button {
+      background: #38d9a9;
+      color: #102020;
+      border: none;
+      border-radius: 12px;
+      padding: 15px 22px;
+      margin: 8px;
+      font-size: 20px;
+    }
+    button:disabled {
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 Tap Master</h1>
+  <p>30 seconds challenge!</p>
+
+  <div class="game">
+    <p>Your Score</p>
+    <div id="score">0</div>
+    <p id="time">Time: 30</p>
+    <button id="tap" disabled> TAP! </button>
+    <br>
+    <button id="start">Start Game</button>
+    <p id="message">Ready to play?</p>
+  </div>
+
+  <script>
+    let score = 0;
+    let time = 30;
+    let playing = false;
+    let timer;
+
+    const scoreBox = document.getElementById("score");
+    const timeBox = document.getElementById("time");
+    const tap = document.getElementById("tap");
+    const start = document.getElementById("start");
+    const message = document.getElementById("message");
+
+    start.onclick = function() {
+      clearInterval(timer);
+      score = 0;
+      time = 30;
+      playing = true;
+      scoreBox.textContent = score;
+      timeBox.textContent = "Time: " + time;
+      message.textContent = "Tap as fast as you can!";
+      tap.disabled = false;
+      start.disabled = true;
+
+      timer = setInterval(function() {
+        time--;
+        timeBox.textContent = "Time: " + time;
+
+        if (time <= 0) {
+          clearInterval(timer);
+          playing = false;
+          tap.disabled = true;
+          start.disabled = false;
+          message.textContent = "Game Over! Score: " + score;
+        }
+      }, 1000);
+    };
+
+    tap.onclick = function() {
+      if (!playing) return;
+      score++;
+      scoreBox.textContent = score;
+    };
+  </script>
+</body>
+</html>
